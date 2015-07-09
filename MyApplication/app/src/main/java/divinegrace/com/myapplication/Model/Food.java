@@ -1,9 +1,11 @@
 package divinegrace.com.myapplication.Model;
 
+import java.util.List;
+
 /**
  * Created by DGBendicion on 7/9/15.
  */
-public class Portion {
+public class Food {
     public String name;
-    public Nutrients nutrients;
+    public List<Portion> portions;
 }

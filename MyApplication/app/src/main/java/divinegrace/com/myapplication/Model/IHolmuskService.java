@@ -14,5 +14,5 @@ public interface IHolmuskService {
 
     @GET(EndPoints.SEARCH_FOOD)
     void searchFood(@Query("q") String foodName,
-                    Callback<List<Portion>> callback);
+                    Callback<List<Food>> callback);
 }

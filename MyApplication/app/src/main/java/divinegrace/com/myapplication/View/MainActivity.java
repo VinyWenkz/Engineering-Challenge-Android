@@ -8,7 +8,7 @@ import java.util.List;
 
 import divinegrace.com.myapplication.CallBacks.NetworkCallback;
 import divinegrace.com.myapplication.Controller.InFoodController;
-import divinegrace.com.myapplication.Model.Portion;
+import divinegrace.com.myapplication.Model.Food;
 import retrofit.RetrofitError;
 
 /**
@@ -26,9 +26,11 @@ public class MainActivity extends Activity implements NetworkCallback {
     }
 
     @Override
-    public void foodSearchSuccess(List<Portion> portionList) {
-        for (Portion portion: portionList) {
-            Log.d(LOG_TAG, portion.name);
+    public void foodSearchSuccess(List<Food> foodList) {
+        for (Food food: foodList) {
+            Log.d(LOG_TAG, food.name);
+            Log.d(LOG_TAG, "Calories: " + food.portions.get(0).nutrients.important.calories.value +
+            food.portions.get(0).nutrients.important.calories.unit);
         }
     }
 

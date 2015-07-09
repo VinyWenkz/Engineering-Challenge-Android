@@ -21,10 +21,10 @@ public class SearchFoodService {
     }
 
     public void searchForFoodInformationFromHolmusk(String foodName, final NetworkCallback networkCallback) {
-        Callback<List<Portion>> callback = new Callback<List<Portion>>() {
+        Callback<List<Food>> callback = new Callback<List<Food>>() {
             @Override
-            public void success(List<Portion> s, Response response) {
-                networkCallback.foodSearchSuccess(s);
+            public void success(List<Food> foods, Response response) {
+                networkCallback.foodSearchSuccess(foods);
             }
 
             @Override
