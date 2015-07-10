@@ -9,6 +9,6 @@ import retrofit.RetrofitError;
  * Created by DGBendicion on 7/9/15.
  */
 public interface NetworkCallback {
-    public void foodSearchSuccess(List<Food> portionList);
-    public void foodSearchError(RetrofitError error);
+    void foodSearchSuccess(List<Food> portionList);
+    void foodSearchError(RetrofitError error);
 }

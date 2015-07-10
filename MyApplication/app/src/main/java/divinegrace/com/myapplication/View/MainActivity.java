@@ -3,39 +3,69 @@ package divinegrace.com.myapplication.View;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
+import divinegrace.com.myapplication.CallBacks.DBCallback;
 import divinegrace.com.myapplication.CallBacks.NetworkCallback;
 import divinegrace.com.myapplication.Controller.InFoodController;
 import divinegrace.com.myapplication.Model.Food;
+import divinegrace.com.myapplication.Model.FoodInDB;
+import divinegrace.com.myapplication.Model.Portion;
+import divinegrace.com.myapplication.Services.DatabaseService;
+import divinegrace.com.myapplication.Utils.Utils;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit.RetrofitError;
 
 /**
  * Created by DGBendicion on 7/9/15.
  */
-public class MainActivity extends Activity implements NetworkCallback {
-    InFoodController inFoodController = new InFoodController();
+public class MainActivity extends Activity implements NetworkCallback, DBCallback {
+    InFoodController inFoodController;
+    Realm mRealm;
 
     private final String LOG_TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inFoodController = InFoodController.getInstance();
         inFoodController.searchFoodInformation("apple", MainActivity.this);
+
+        mRealm = Realm.getInstance(this);
     }
 
     @Override
     public void foodSearchSuccess(List<Food> foodList) {
         for (Food food: foodList) {
-            Log.d(LOG_TAG, food.name);
-            Log.d(LOG_TAG, "Calories: " + food.portions.get(0).nutrients.important.calories.value +
-            food.portions.get(0).nutrients.important.calories.unit);
+            for (Portion portion: food.portions) {
+                saveOrUpdateFoodItems(food.name,
+                        portion);
+            }
         }
+
+
+        RealmResults<FoodInDB> query  = mRealm.allObjects(FoodInDB.class);
+        for (FoodInDB foodInDB: query) {
+            Log.d("Realm", foodInDB.getName() + " " + foodInDB.getPortionName()
+                    + " " + foodInDB.getCalories());
+        }
+
+    }
+
+    private void saveOrUpdateFoodItems(String name, Portion portion) {
+        inFoodController.saveOrUpdateFoodItemInDb(mRealm, name, portion, MainActivity.this);
     }
 
     @Override
     public void foodSearchError(RetrofitError error) {
 
+    }
+
+    @Override
+    public void recordSaved(Class zz) {
+        Toast.makeText(this, "Food information saved in DB", Toast.LENGTH_SHORT).show();
     }
 }
