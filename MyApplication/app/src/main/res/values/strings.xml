@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">inFood</string>
+    <string name="enter_food_name">Enter Food Name</string>
 </resources>

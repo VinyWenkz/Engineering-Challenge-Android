@@ -8,4 +8,9 @@ import java.util.List;
 public class Food {
     public String name;
     public List<Portion> portions;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
