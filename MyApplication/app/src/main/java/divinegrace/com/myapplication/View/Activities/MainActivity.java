@@ -41,24 +41,24 @@ public class MainActivity extends Activity implements NetworkCallback, DBCallbac
 
     @Override
     public void foodSearchSuccess(List<Food> foodList) {
-//        for (Food food: foodList) {
-//            for (Portion portion: food.portions) {
-//                saveOrUpdateFoodItems(food.name,
-//                        portion);
-//            }
-//        }
-//
-//
-//        RealmResults<FoodInDB> query  = mRealm.allObjects(FoodInDB.class);
-//        for (FoodInDB foodInDB: query) {
-//            Log.d("Realm", foodInDB.getName() + " " + foodInDB.getPortionName()
-//                    + " " + foodInDB.getCalories());
-//        }
-        SearchResultsFragment searchResultsFragment = findSearchResultsFragment();
-        if (searchResultsFragment != null) {
-            searchResultsFragment.repopulateFoodList(foodList);
+        for (Food food: foodList) {
+            for (Portion portion: food.portions) {
+                saveOrUpdateFoodItems(food.name,
+                        portion);
+            }
         }
-        Log.d(LOG_TAG, "foodSearchSuccess");
+
+
+        RealmResults<FoodInDB> query  = mRealm.allObjects(FoodInDB.class);
+        for (FoodInDB foodInDB: query) {
+            Log.d("Realm", foodInDB.getName() + " " + foodInDB.getPortionName()
+                    + " " + foodInDB.getCalories());
+        }
+//        SearchResultsFragment searchResultsFragment = findSearchResultsFragment();
+//        if (searchResultsFragment != null) {
+//            searchResultsFragment.repopulateFoodList(foodList);
+//        }
+//        Log.d(LOG_TAG, "foodSearchSuccess");
 
     }
 
@@ -74,9 +74,12 @@ public class MainActivity extends Activity implements NetworkCallback, DBCallbac
     @Override
     public void recordSaved(Class zz) {
 //        Toast.makeText(this, "Food information saved in DB", Toast.LENGTH_SHORT).show();
+        if (zz == FoodInDB.class) {
+            
+        }
     }
 
-    private SearchResultsFragment findSearchResultsFragment() {
-        return (SearchResultsFragment)getFragmentManager().findFragmentById(R.id.search_results_fragment);
-    }
+//    private SearchResultsFragment findSearchResultsFragment() {
+//        return (SearchResultsFragment)getFragmentManager().findFragmentById(R.id.search_results_fragment);
+//    }
 }

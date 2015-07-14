@@ -4,12 +4,14 @@ import android.provider.ContactsContract;
 
 import divinegrace.com.myapplication.CallBacks.DBCallback;
 import divinegrace.com.myapplication.CallBacks.NetworkCallback;
+import divinegrace.com.myapplication.Model.FoodInDB;
 import divinegrace.com.myapplication.Model.HolmuskService;
 import divinegrace.com.myapplication.Model.IHolmuskService;
 import divinegrace.com.myapplication.Model.Portion;
 import divinegrace.com.myapplication.Model.SearchFoodService;
 import divinegrace.com.myapplication.Services.DatabaseService;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by DGBendicion on 7/9/15.
@@ -41,5 +43,9 @@ public class InFoodController {
 
     public void saveOrUpdateFoodItemInDb(Realm realm, String name, Portion portion, DBCallback dbCallback) {
         mDatabaseService.saveOrUpdateFoodItemInDb(realm, name, portion, dbCallback);
+    }
+
+    public RealmResults<FoodInDB> getAllFood(Realm realm, DBCallback dbCallback) {
+        return mDatabaseService.getAllFoodInDb(realm, dbCallback);
     }
 }

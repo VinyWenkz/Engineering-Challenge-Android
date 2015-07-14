@@ -14,6 +14,7 @@ import java.util.List;
 
 import divinegrace.com.myapplication.Adapter.SearchResultsArrayAdapter;
 import divinegrace.com.myapplication.Model.Food;
+import divinegrace.com.myapplication.Model.FoodInDB;
 import divinegrace.com.myapplication.R;
 
 /**
@@ -22,7 +23,7 @@ import divinegrace.com.myapplication.R;
 public class SearchResultsFragment extends ListFragment {
     private Context mContext;
     private SearchResultsArrayAdapter mSearchResultsArrayAdapter;
-    private List<Food> mFoodList;
+    private List<FoodInDB> mFoodList;
     private ListView mListView;
 
     public static SearchResultsFragment newInstance() {
@@ -46,19 +47,17 @@ public class SearchResultsFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_result_fragment_layout, container, false);
-        mListView = (ListView) view.findViewById(R.id.listView);
+
         return view;
     }
 
     public void repopulateFoodList(List<Food> newFoodList) {
-        mSearchResultsArrayAdapter.repopulateFoodList(newFoodList);
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSearchResultsArrayAdapter = new SearchResultsArrayAdapter(mContext,
-                android.R.layout.simple_list_item_1, android.R.id.text1, mFoodList);
-        mListView.setAdapter(mSearchResultsArrayAdapter);
+
     }
 }

@@ -5,6 +5,7 @@ import divinegrace.com.myapplication.Model.FoodInDB;
 import divinegrace.com.myapplication.Model.Portion;
 import divinegrace.com.myapplication.Utils.Utils;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by DGBendicion on 7/10/15.
@@ -89,5 +90,13 @@ public class DatabaseService {
         realm.commitTransaction();
 
         dbCallback.recordSaved(FoodInDB.class);
+    }
+
+    public RealmResults<FoodInDB> getAllFoodInDb(Realm realmInstance, DBCallback dbCallback) {
+        RealmResults<FoodInDB> realmResults;
+        realmInstance.beginTransaction();
+        realmResults = realmInstance.where(FoodInDB.class).findAll();
+        realmInstance.commitTransaction();
+        return realmResults;
     }
 }

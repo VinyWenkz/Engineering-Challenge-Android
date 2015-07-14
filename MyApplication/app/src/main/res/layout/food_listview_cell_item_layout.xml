@@ -8,5 +8,5 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tv_search_results"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="left" />
 </LinearLayout>
