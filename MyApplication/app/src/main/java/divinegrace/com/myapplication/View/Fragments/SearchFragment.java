@@ -16,7 +16,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import divinegrace.com.myapplication.Adapter.FoodInDBBaseAdapter;
 import divinegrace.com.myapplication.Adapter.SearchResultsArrayAdapter;
 import divinegrace.com.myapplication.CallBacks.DBCallback;
 import divinegrace.com.myapplication.CallBacks.NetworkCallback;
@@ -83,8 +82,9 @@ public class SearchFragment extends Fragment {
 
         mSearchResultsArrayAdapter = new SearchResultsArrayAdapter(mContext,
                 android.R.layout.simple_list_item_1, android.R.id.text1, mFoodNames);
-        actvSearchFood.setAdapter(mSearchResultsArrayAdapter);
+
         actvSearchFood.setThreshold(1);
+        actvSearchFood.setAdapter(mSearchResultsArrayAdapter);
 
         return view;
     }
