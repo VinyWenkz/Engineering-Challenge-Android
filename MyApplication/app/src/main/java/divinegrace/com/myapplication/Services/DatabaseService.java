@@ -99,4 +99,14 @@ public class DatabaseService {
         realmInstance.commitTransaction();
         return realmResults;
     }
+
+    public RealmResults<FoodInDB> getRecordsContaining(Realm realmInstance, Class zz,
+                                                      String fieldName,
+                                                        String searchString) {
+        RealmResults<FoodInDB> realmResults;
+        realmInstance.beginTransaction();
+        realmResults = realmInstance.where(zz).contains(fieldName, searchString, false).findAll();
+        realmInstance.commitTransaction();
+        return realmResults;
+    }
 }

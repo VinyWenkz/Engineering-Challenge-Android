@@ -13,5 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_food_name"
-        android:id="@+id/actv_search_food" />
+        android:id="@+id/actv_search_food"
+        android:imeOptions="actionSearch"
+        android:inputType="text"/>
 </LinearLayout>

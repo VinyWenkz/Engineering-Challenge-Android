@@ -48,4 +48,9 @@ public class InFoodController {
     public RealmResults<FoodInDB> getAllFood(Realm realm, DBCallback dbCallback) {
         return mDatabaseService.getAllFoodInDb(realm, dbCallback);
     }
+
+    public RealmResults<FoodInDB> getFoodWithNameContaining(Realm realm, Class zz,
+                                                            String fieldName, String stringSearch) {
+        return mDatabaseService.getRecordsContaining(realm, zz, fieldName, stringSearch);
+    }
 }

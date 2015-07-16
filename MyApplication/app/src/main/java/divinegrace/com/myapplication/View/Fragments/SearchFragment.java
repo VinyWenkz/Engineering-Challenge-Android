@@ -4,19 +4,26 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import divinegrace.com.myapplication.Adapter.SearchResultsArrayAdapter;
 import divinegrace.com.myapplication.CallBacks.DBCallback;
 import divinegrace.com.myapplication.CallBacks.NetworkCallback;
 import divinegrace.com.myapplication.Controller.InFoodController;
@@ -32,11 +39,11 @@ public class SearchFragment extends Fragment {
     private Context mContext;
     private InFoodController mInFoodController;
     private NetworkCallback mNetworkCallback;
-    private SearchResultsArrayAdapter mSearchResultsArrayAdapter;
-    private RealmResults<FoodInDB> mFoodInDbList;
-    private List<String> mFoodNames;
     private Realm mRealm;
     private DBCallback mDbCallback;
+    private List<String> mFoodNames;
+    private ArrayAdapter<String> mArrayAdapter;
+
 
     private final String LOG_TAG = "SearchFragment";
 
@@ -61,40 +68,80 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mInFoodController = InFoodController.getInstance();
         mRealm = Realm.getInstance(mContext);
-
-        mFoodInDbList = mInFoodController.getAllFood(mRealm, mDbCallback);
         mFoodNames = new ArrayList<String>();
-
-        for (FoodInDB foodInDB: mFoodInDbList) {
-            if (!mFoodNames.contains(foodInDB.getName())) {
-                mFoodNames.add(foodInDB.getName());
-                Log.d(LOG_TAG, foodInDB.getName());
-            }
-        }
-
+        mArrayAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line,
+                android.R.id.text1, mFoodNames);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.search_fragment_layout, container, false);
         ButterKnife.bind(this, view);
 
-        mSearchResultsArrayAdapter = new SearchResultsArrayAdapter(mContext,
-                android.R.layout.simple_list_item_1, android.R.id.text1, mFoodNames);
-
         actvSearchFood.setThreshold(1);
-        actvSearchFood.setAdapter(mSearchResultsArrayAdapter);
+        actvSearchFood.addTextChangedListener(textWatcher);
+        actvSearchFood.setAdapter(mArrayAdapter);
+        actvSearchFood.setOnEditorActionListener(onEditorActionListener);
+        actvSearchFood.setOnItemClickListener(onItemClickListener);
 
         return view;
     }
 
-    @OnClick(R.id.actv_search_food)
-    public void searchFoodInRemote() {
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            RealmResults<FoodInDB> foodInDbList = mInFoodController.getAllFood(mRealm, mDbCallback);
+            for (FoodInDB foodInDB: foodInDbList) {
+                if(!mFoodNames.contains(foodInDB.getName())) {
+                    mFoodNames.add(foodInDB.getName());
+                }
+            }
+            if (mFoodNames.size() > 0) {
+                mArrayAdapter.clear();
+                mArrayAdapter.addAll(mFoodNames);
+                mArrayAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (!actvSearchFood.isPerformingCompletion()) {
+                Log.d(LOG_TAG, "No matches found");
+            }
+        }
+    };
+
+    private TextView.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                mInFoodController.searchFoodInformation(actvSearchFood.getText().toString(),
+                        mNetworkCallback);
+                return true;
+            }
+            return false;
+        }
+    };
+
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(mContext, mFoodNames.get(position), Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    public void dismissAutocompleteTextView() {
+        actvSearchFood.dismissDropDown();
+        InputMethodManager imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(actvSearchFood.getWindowToken(), 0);
     }
 
-    private void setEnterKeyListenerOnActv() {
-       
-    }
+
+
+
 }
