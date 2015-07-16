@@ -8,6 +8,6 @@
         android:layout_height="wrap_content"
         android:text="@string/sample_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/food_info_section_header" />
+        android:id="@+id/tv_food_info_section_header" />
 
 </LinearLayout>
