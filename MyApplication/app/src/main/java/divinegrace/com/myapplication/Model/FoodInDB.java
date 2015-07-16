@@ -24,6 +24,8 @@ public class FoodInDB extends RealmObject {
 
     private String sodium;
 
+    private String potassium;
+
     private String polyunsaturated;
 
     private String calories;
@@ -158,6 +160,14 @@ public class FoodInDB extends RealmObject {
         this.protien = protien;
     }
 
+    public String getPotassium() {
+        return potassium;
+    }
+
+    public void setPotassium(String potassium) {
+        this.potassium = potassium;
+    }
+
     //field names
     public static String idFieldName = "id";
     public static String nameFieldName = "name";
@@ -174,5 +184,6 @@ public class FoodInDB extends RealmObject {
     public static String monosaturatedFieldName = "monosaturated";
     public static String cholesterolFieldName = "cholesterol";
     public static String protienFieldName = "protien";
+    public static String potassiumFieldName = "potassium";
 
 }

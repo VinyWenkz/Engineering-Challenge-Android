@@ -6,4 +6,9 @@ package divinegrace.com.myapplication.Model;
 public class Nutrient {
     public String unit;
     public double value;
+
+    @Override
+    public String toString() {
+        return value + unit;
+    }
 }

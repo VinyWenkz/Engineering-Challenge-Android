@@ -2,4 +2,19 @@
     <string name="app_name">inFood</string>
     <string name="enter_food_name">Enter Food Name</string>
     <string name="tag_full_screen">FULLSCREEN_FRAME_LAYOUT</string>
+    <string name="tag_contentview_screen">CONTENT_VIEW_FRAME_LAYOUT</string>
+    <string name="sample_content">Sample Content</string>
+    <string name="dietary_fibre">Dietary Fibre: </string>
+    <string name="trans">Trans Fat: </string>
+    <string name="saturated">Unsaturated Fat: </string>
+    <string name="total_carbs">Total Carbohydrates: </string>
+    <string name="sodium">Sodium: </string>
+    <string name="potassium">Potassium: </string>
+    <string name="polyunsaturated">Polyunsaturated Fats: </string>
+    <string name="calories">Calories: </string>
+    <string name="sugar">Sugar: </string>
+    <string name="total_fats">Total Fats: </string>
+    <string name="monounsaturated">Monounsaturated Fats: </string>
+    <string name="cholesterol">Cholesterol: </string>
+    <string name="protein">Protein: </string>
 </resources>

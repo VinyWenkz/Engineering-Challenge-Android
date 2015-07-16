@@ -6,4 +6,6 @@ package divinegrace.com.myapplication.Utils;
 public class Keys {
     public final static String SEARCH_FRAGMENT_STRING_BUNDLE_CONTENT =
             "divinegrace.com.myapplication.searchfragment.foodSearchString";
+    public final static String FOOD_INFO_FRAGMENT_STRING_BUNDLE_CONTENT =
+            "divinegrace.com.myapplication.foodInfoFragment.foodSearchString";
 }

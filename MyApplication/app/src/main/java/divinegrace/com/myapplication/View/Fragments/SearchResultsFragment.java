@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import divinegrace.com.myapplication.CallBacks.UICallbacks;
 import divinegrace.com.myapplication.Controller.InFoodController;
 import divinegrace.com.myapplication.Model.Food;
 import divinegrace.com.myapplication.Model.FoodInDB;
@@ -40,6 +41,7 @@ public class SearchResultsFragment extends Fragment {
     private ArrayAdapter<String> arrayAdapter;
     private List<String> mFoodNames;
     private InFoodController mInFoodController;
+    private UICallbacks mUiCallback;
 
     @Bind(R.id.listView)
     ListView mListView;
@@ -58,6 +60,7 @@ public class SearchResultsFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = activity;
+        mUiCallback = (UICallbacks) activity;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class SearchResultsFragment extends Fragment {
             new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(mContext, mFoodNames.get(position), Toast.LENGTH_SHORT).show();
+            mUiCallback.selectedFood(mFoodNames.get(position));
         }
     };
 }

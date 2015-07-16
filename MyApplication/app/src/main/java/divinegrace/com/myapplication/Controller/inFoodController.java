@@ -53,4 +53,9 @@ public class InFoodController {
                                                             String fieldName, String stringSearch) {
         return mDatabaseService.getRecordsContaining(realm, zz, fieldName, stringSearch);
     }
+
+    public RealmResults<FoodInDB> getFoodWithExactName(Realm realm, Class zz, String fieldName,
+                                                       String stringSearch) {
+        return mDatabaseService.gerRecordWithExactName(realm, zz, fieldName, stringSearch);
+    }
 }

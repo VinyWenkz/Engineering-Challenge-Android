@@ -26,6 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import divinegrace.com.myapplication.CallBacks.DBCallback;
 import divinegrace.com.myapplication.CallBacks.NetworkCallback;
+import divinegrace.com.myapplication.CallBacks.UICallbacks;
 import divinegrace.com.myapplication.Controller.InFoodController;
 import divinegrace.com.myapplication.Model.FoodInDB;
 import divinegrace.com.myapplication.R;
@@ -43,6 +44,7 @@ public class SearchFragment extends Fragment {
     private DBCallback mDbCallback;
     private List<String> mFoodNames;
     private ArrayAdapter<String> mArrayAdapter;
+    private UICallbacks mUiCallback;
 
 
     private final String LOG_TAG = "SearchFragment";
@@ -61,6 +63,7 @@ public class SearchFragment extends Fragment {
         mContext = activity;
         mNetworkCallback = (NetworkCallback) activity;
         mDbCallback = (DBCallback) activity;
+        mUiCallback = (UICallbacks) activity;
     }
 
     @Override
@@ -131,7 +134,8 @@ public class SearchFragment extends Fragment {
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(mContext, mFoodNames.get(position), Toast.LENGTH_SHORT).show();
+            mUiCallback.selectedFood(mFoodNames.get(position));
+            dismissAutocompleteTextView();
         }
     };
 

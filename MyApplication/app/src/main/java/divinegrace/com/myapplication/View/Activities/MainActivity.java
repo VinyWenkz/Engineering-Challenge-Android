@@ -3,20 +3,28 @@ package divinegrace.com.myapplication.View.Activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Layout;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import divinegrace.com.myapplication.CallBacks.DBCallback;
 import divinegrace.com.myapplication.CallBacks.NetworkCallback;
+import divinegrace.com.myapplication.CallBacks.UICallbacks;
 import divinegrace.com.myapplication.Controller.InFoodController;
 import divinegrace.com.myapplication.Model.Food;
 import divinegrace.com.myapplication.Model.FoodInDB;
 import divinegrace.com.myapplication.Model.Portion;
 import divinegrace.com.myapplication.R;
+import divinegrace.com.myapplication.View.Fragments.FoodInfoFragment;
 import divinegrace.com.myapplication.View.Fragments.SearchFragment;
 import divinegrace.com.myapplication.View.Fragments.SearchResultsFragment;
 import io.realm.Realm;
@@ -26,17 +34,23 @@ import retrofit.RetrofitError;
 /**
  * Created by DGBendicion on 7/9/15.
  */
-public class MainActivity extends Activity implements NetworkCallback, DBCallback {
+public class MainActivity extends Activity implements NetworkCallback, DBCallback, UICallbacks {
     InFoodController inFoodController;
     Realm mRealm;
     String foodStringSearch = "";
 
     private final String LOG_TAG = "MainActivity";
 
+    @Bind(R.id.fullscreen_overlay_layout_view)
+    View mFullScreenOverlayLayout;
+    @Bind(R.id.content_layout_view)
+    View mContentLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout);
+        ButterKnife.bind(this);
         inFoodController = InFoodController.getInstance();
 
         mRealm = Realm.getInstance(this);
@@ -45,12 +59,13 @@ public class MainActivity extends Activity implements NetworkCallback, DBCallbac
     @Override
     public void foodSearchSuccess(List<Food> foodList) {
         foodStringSearch = foodList.get(0).name;
-        for (Food food: foodList) {
-            for (Portion portion: food.portions) {
+        for (Food food : foodList) {
+            for (Portion portion : food.portions) {
                 saveOrUpdateFoodItems(food.name,
                         portion);
             }
         }
+        showResultsView();
 
         loadFullScreenFragment(SearchResultsFragment.newInstance(foodStringSearch));
 
@@ -83,10 +98,34 @@ public class MainActivity extends Activity implements NetworkCallback, DBCallbac
     }
 
     private void loadFullScreenFragment(Fragment fragment) {
-       if (fragment != null) {
-           FragmentManager fragmentManager = getFragmentManager();
-           fragmentManager.beginTransaction()
-                   .replace(R.id.fullscreen_overlay_layout_view, fragment).commit();
-       }
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fullscreen_overlay_layout_view, fragment).commit();
+        }
+    }
+
+    private void loadContentViewScreenFragment(Fragment fragment) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_layout_view, fragment).commit();
+        }
+    }
+
+    @Override
+    public void selectedFood(String foodName) {
+        hideResultsView();
+        loadContentViewScreenFragment(FoodInfoFragment.newInstance(foodName));
+    }
+
+    private void hideResultsView() {
+        mContentLayout.setVisibility(View.VISIBLE);
+        mFullScreenOverlayLayout.setVisibility(View.GONE);
+    }
+
+    private void showResultsView() {
+        mContentLayout.setVisibility(View.GONE);
+        mFullScreenOverlayLayout.setVisibility(View.VISIBLE);
     }
 }

@@ -109,4 +109,13 @@ public class DatabaseService {
         realmInstance.commitTransaction();
         return realmResults;
     }
+
+    public RealmResults<FoodInDB> gerRecordWithExactName(Realm realmInstance, Class zz,
+                                                         String fieldName, String searchString) {
+        RealmResults<FoodInDB> realmResults;
+        realmInstance.beginTransaction();
+        realmResults = realmInstance.where(FoodInDB.class).equalTo(fieldName, searchString).findAll();
+        realmInstance.commitTransaction();
+        return realmResults;
+    }
 }
