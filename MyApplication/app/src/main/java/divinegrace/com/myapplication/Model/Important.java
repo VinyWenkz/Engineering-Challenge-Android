@@ -6,14 +6,14 @@ import com.google.gson.annotations.SerializedName;
  * Created by DGBendicion on 7/9/15.
  */
 public class Important {
-    @SerializedName("dietary_fiber")
+    @SerializedName("dietary_fibre")
     public Nutrient dietaryFiber;
 
     public Nutrient trans;
 
     public Nutrient saturated;
 
-    @SerializedName("total_cards")
+    @SerializedName("total_carbs")
     public Nutrient totalCarbs;
 
     public Nutrient sodium;
@@ -30,6 +30,8 @@ public class Important {
     public Nutrient monosaturated;
 
     public Nutrient cholesterol;
+
+    public Nutrient potassium;
 
     public Nutrient protien;
 }

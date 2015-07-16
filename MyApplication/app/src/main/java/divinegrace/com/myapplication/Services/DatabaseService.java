@@ -87,6 +87,11 @@ public class DatabaseService {
                     portion.nutrients.important.protien.unit);
         }
 
+        if (portion.nutrients.important.potassium != null) {
+            foodInDB.setPotassium(portion.nutrients.important.potassium.value +
+                portion.nutrients.important.potassium.unit);
+        }
+
         realm.commitTransaction();
 
         dbCallback.recordSaved(FoodInDB.class);
